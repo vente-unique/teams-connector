@@ -60,10 +60,12 @@ final class Client
         if ($statusCode === 401 || $statusCode === 403) {
             throw new InvalidCredentials();
         } elseif ($statusCode >= 300) {
+            dd($response->getBody()->getContents());
             throw new InvalidServerResponse((string) $request->getUri(), $statusCode);
         }
 
         if ($response->getBody()->getContents() !== '1') {
+            dd($response->getBody()->getContents());
             throw new InvalidServerResponse('Something went wrong!');
         }
     }

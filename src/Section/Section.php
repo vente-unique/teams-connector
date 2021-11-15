@@ -22,7 +22,7 @@ final class Section implements SectionInterface
     /**
      * @var array<int, array<string, string>>
      */
-    private array $facts;
+    private array $options;
 
     public function __construct(string $activityTitle)
     {
@@ -31,7 +31,7 @@ final class Section implements SectionInterface
         $this->activitySubtitle = null;
         $this->activityText = null;
         $this->markDown = true;
-        $this->facts = [];
+        $this->options = [];
     }
 
     public function getActivityTitle(): string
@@ -94,37 +94,27 @@ final class Section implements SectionInterface
         return $this;
     }
 
-    public function getFacts(): array
+    public function getOptions(): array
     {
-        return $this->facts;
+        return $this->options;
     }
 
-    public function addFact(string $name, string $value): self
+    public function addOption(string $name, $value): self
     {
-        $this->facts[] = [
-            'name' => $name,
-            'value' => $value,
-        ];
+        $this->options[$name] = $value;
 
         return $this;
     }
 
-    public function clearFacts(): self
+    public function clearOptions(): self
     {
-        $this->facts = [];
+        $this->options = [];
 
         return $this;
     }
 
     public function toArray(): array
     {
-        return [
-            'activityTitle' => $this->activityTitle,
-            'activitySubtitle' => $this->activitySubtitle,
-            'activityText' => $this->activityText,
-            'activityImage' => $this->activityImage,
-            'markdown' => $this->markDown,
-            'facts' => $this->facts,
-        ];
+        return $this->options;
     }
 }

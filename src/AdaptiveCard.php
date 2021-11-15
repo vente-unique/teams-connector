@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Skrepr\TeamsConnector;
 
 use Skrepr\TeamsConnector\Actions\ActionInterface;
-use Skrepr\TeamsConnector\Services\UtilService;
 use Skrepr\TeamsConnector\Exception\InvalidArgumentException;
 use Skrepr\TeamsConnector\Mention\MentionInterface;
 use Skrepr\TeamsConnector\Section\SectionInterface;
+use Skrepr\TeamsConnector\Services\UtilService;
 
 /**
- * @author Evert Jan Hakvoort <evertjan@hakvoort.io>
+ * @author Maël MENGUY <mael.menguy@gmail.com>
  */
-final class Card implements CardInterface
+final class AdaptiveCard implements CardInterface
 {
     private string $themeColor;
 
@@ -129,14 +129,21 @@ final class Card implements CardInterface
     public function toArray(): array
     {
         return [
-            '@type' => 'MessageCard',
-            'title' => $this->title,
-            'themeColor' => $this->themeColor,
-            'text' => $this->text,
-            'sections' => array_map(static fn (SectionInterface $section) => $section->toArray(), $this->sections),
-            'potentialAction' => array_map(static fn (ActionInterface $action) => $action->toArray(), $this->potentialAction),
-            'msteams' => [
-                'entities' => array_map(static fn(MentionInterface $mention) => $mention->toArray(), $this->mentions),
+            'type'        => 'message',
+            'attachments' => [
+                [
+                    'contentType' => 'application/vnd.microsoft.card.adaptive',
+                    'content'     => [
+                        '$schema' => 'http://adaptivecards.io/schemas/adaptive-card.json',
+                        'type'    => 'AdaptiveCard',
+                        'version' => '1.0',
+                        'body'    => array_map(static fn(SectionInterface $section) => $section->toArray(), $this->sections),
+                        'msteams' => [
+                            'entities' => array_map(static fn(MentionInterface $mention) => $mention->toArray(), $this->mentions),
+                        ],
+                        'actions' => array_map(static fn(ActionInterface $action) => $action->toArray(), $this->potentialAction),
+                    ]
+                ]
             ]
         ];
     }

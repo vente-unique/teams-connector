@@ -46,9 +46,9 @@ final class OpenUriAction implements ActionInterface
     public function toArray(): array
     {
         return [
-            '@type' => ActionInterface::OPEN_URI_ACTION,
-            'name' => $this->name,
-            'target' => $this->target,
+            'type' => 'Action.OpenUrl',
+            'title' => $this->name,
+            'url' => $this->target,
         ];
     }
 }

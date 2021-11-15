@@ -49,7 +49,7 @@ final class RequestBuilder
      * Creates a new PSR-7 request.
      *
      * @param array $headers name => value or name=>[value]
-     * @param StreamInterface|string|null $body request body
+     * @param StreamInterface|?string $body request body
      */
     public function create(string $method, string $uri, array $headers = [], $body = null): RequestInterface
     {
