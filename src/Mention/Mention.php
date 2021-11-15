@@ -14,12 +14,12 @@ final class Mention implements MentionInterface
     /**
      * @var array<int, array<string, string>>
      */
-    private array $mentionned;
+    private array $mentioned;
 
     public function __construct(string $mentionText)
     {
         $this->mentionText = sprintf('<at>%s</at>', $mentionText);
-        $this->mentioned = [];
+        $this->mentioned   = [];
     }
 
     public function getMentionText(): string
